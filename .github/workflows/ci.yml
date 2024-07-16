@@ -19,13 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '20.13.1'
           cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Linter
+      - name: Lint Code
         run: npm run lint
         continue-on-error: true
 
@@ -41,17 +41,6 @@ jobs:
         run: npm test
         continue-on-error: true
 
-      - name: Build the App
-        env:
-          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
-          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
-          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
-          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-        run: npm run build
-
   deploy:
     runs-on: ubuntu-latest
     needs: lint-and-test
@@ -63,11 +52,22 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '20.13.1'
           cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Build the App
+        env:
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
+          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
+          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
+          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+        run: npm run build
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
@@ -80,4 +80,31 @@ jobs:
       - name: Deploy to Netlify
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        run: netlify deploy --prod --dir=./dist
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+
+  security:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.13.1'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      - name: Run npm audit
+        run: npm audit --audit-level=high
