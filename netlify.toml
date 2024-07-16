@@ -1,0 +1,30 @@
+[build]
+  # Directory where the build files are located
+  publish = "dist"
+  # Command to run for building the site
+  command = "npm run build"
+  
+  # Directory for Netlify functions
+  functions = "netlify/functions"
+
+[dev]
+  # Port for Netlify Dev to use
+  port = 8888
+
+[functions]
+  # Node.js version to use for the functions
+  node_bundler = "esbuild"
+
+[[redirects]]
+  # Redirects all requests to index.html for a single-page application
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[build.environment]
+  # Environment variables for the build process
+  VITE_STRIPE_PUBLISHABLE_KEY = "your_stripe_publishable_key_here"
+
+[functions.environment]
+  # Environment variables for the functions
+  STRIPE_SECRET_KEY = "your_stripe_secret_key_here"
