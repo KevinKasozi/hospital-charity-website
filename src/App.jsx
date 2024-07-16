@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HospitalHome from './components/hospital/HospitalHome';
-import CharityHome from './components/charity/CharityHome';
-import AboutUs from './components/hospital/AboutUs';
-import ContactUs from './components/hospital/ContactUs';
-import HospitalFeatures from './components/hospital/HospitalFeatures';
-import OurServices from './components/hospital/OurServices';
-import Statistic from './components/hospital/Statistic';
-import Timeline from './components/hospital/Timeline';
-import Events from './components/charity/Events';
-import GetInvolved from './components/charity/GetInvolved';
-import Donate from './components/charity/Donate';
-import NotFound from './components/common/NotFound';
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import HospitalHome from './components/hospital/HospitalHome'
+import CharityHome from './components/charity/CharityHome'
+import AboutUs from './components/hospital/AboutUs'
+import ContactUs from './components/hospital/ContactUs'
+import HospitalFeatures from './components/hospital/HospitalFeatures'
+import OurServices from './components/hospital/OurServices'
+import Statistic from './components/hospital/Statistic'
+import Timeline from './components/hospital/Timeline'
+import Events from './components/charity/Events'
+import GetInvolved from './components/charity/GetInvolved'
+import Donate from './components/charity/Donate'
+import NotFound from './components/common/NotFound'
 
 const Return = () => {
-  const [status, setStatus] = useState(null);
-  const [customerEmail, setCustomerEmail] = useState('');
+  const [status, setStatus] = useState(null)
+  const [customerEmail, setCustomerEmail] = useState('')
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const sessionId = urlParams.get('session_id');
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const sessionId = urlParams.get('session_id')
 
     fetch(`/session-status?session_id=${sessionId}`)
       .then((res) => res.json())
       .then((data) => {
-        setStatus(data.status);
-        setCustomerEmail(data.customer_email);
-      });
-  }, []);
+        setStatus(data.status)
+        setCustomerEmail(data.customer_email)
+      })
+  }, [])
 
   if (status === 'open') {
-    return <Navigate to="/charity/donate" />;
+    return <Navigate to="/charity/donate" />
   }
 
   if (status === 'complete') {
@@ -42,11 +42,11 @@ const Return = () => {
           If you have any questions, please email <a href="mailto:orders@example.com">orders@example.com</a>.
         </p>
       </section>
-    );
+    )
   }
 
-  return null;
-};
+  return null
+}
 
 const App = () => (
   <div className="App">
@@ -68,6 +68,6 @@ const App = () => (
       </Routes>
     </Router>
   </div>
-);
+)
 
-export default App;
+export default App
