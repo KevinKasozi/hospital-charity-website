@@ -9,7 +9,7 @@ on:
       - 'main'
 
 jobs:
-  deploy:
+  lint-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -51,6 +51,14 @@ jobs:
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
@@ -65,8 +73,9 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
 
-  security:
+  codeql:
     runs-on: ubuntu-latest
+    needs: lint-and-test
 
     steps:
       - name: Checkout Repository
