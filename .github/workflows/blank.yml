@@ -57,9 +57,6 @@ jobs:
           STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
 
-      - name: Start Server
-        run: npm run start:server
-
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
 
