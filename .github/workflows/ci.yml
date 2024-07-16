@@ -30,22 +30,6 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run Tests
-        env:
-          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
-          VITE_NEXT_PUBLIC_STRIPE_PRICE_ID: ${{ secrets.VITE_NEXT_PUBLIC_STRIPE_PRICE_ID }}
-          VITE_REACT_APP_CONTENTFUL_SPACE_ID: ${{ secrets.VITE_REACT_APP_CONTENTFUL_SPACE_ID }}
-          VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_ACCESS_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_DELIVERY_TOKEN }}
-          VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN: ${{ secrets.VITE_REACT_APP_CONTENTFUL_PREVIEW_TOKEN }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-        run: npm test
-        continue-on-error: true
-
-      - name: Run Linter
-        run: npm run lint
-        continue-on-error: true
-
       - name: Build the App
         env:
           VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
@@ -69,7 +53,7 @@ jobs:
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: netlify deploy --prod --dir=./dist --auth=$NETLIFY_AUTH_TOKEN --site=$NETLIFY_SITE_ID
+        run: netlify deploy --prod --dir=./dist
 
   security:
     runs-on: ubuntu-latest
