@@ -66,7 +66,7 @@ const HospitalHome = () => (
         </div>
       </section>
     </main>
-    <Footer />
+    <Footer theme="hospital" />
   </div>
 );
 

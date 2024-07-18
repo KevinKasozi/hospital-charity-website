@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Styles for Donate Page */
+.donate-page {
+  @apply flex flex-col min-h-screen;
+}
+
+.main-content {
+  @apply flex-grow flex flex-col justify-center items-center relative p-4;
+}
+
+.background-design {
+  @apply absolute inset-0 -z-10 h-full w-full bg-white;
+  background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #63e 100%);
+}
+
+.form-container {
+  @apply bg-white rounded-lg shadow-lg p-6 max-w-lg w-full mb-8;
+}
+
+.form-header {
+  @apply text-center text-2xl font-semibold mb-4 text-gray-800;
+}
+
+.cards-container {
+  @apply mt-8 flex flex-wrap justify-center space-x-4;
+}
+
+.card {
+  @apply bg-white rounded-lg shadow-lg p-4 m-2 w-full sm:w-56;
+}
+
+.card-header {
+  @apply text-xl font-bold text-gray-800 mb-2;
+}
+
+.card-body {
+  @apply text-gray-600;
+}
+
+form {
+  @apply w-full space-y-4;
+}
+
+button {
+  @apply w-full py-2 px-4 bg-red-500 text-white font-semibold rounded-md shadow-md hover:bg-red-600 transition duration-200;
+}

@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import Header from '../common/Header';
+import Footer from '../common/Footer';
+import CharityNavbar from './CharityNavbar';
+import { FaHeart, FaHandsHelping, FaRegSmileBeam, FaDollarSign } from 'react-icons/fa';
+import '../stylesheets/Donate.css';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -55,15 +60,55 @@ const Donate = () => {
   };
 
   return (
-    <div>
-      <h1>Donate</h1>
-      {clientSecret ? (
-        <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="donate-page">
+      <Header />
+      <CharityNavbar />
+      <main className="main-content">
+        <div className="background-design"></div>
+        <div className="form-container">
+          <h1 className="form-header">Donate</h1>
+          {clientSecret ? (
+            <Elements options={options} stripe={stripePromise}>
+              <CheckoutForm />
+            </Elements>
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
+
+        {/* New Impact Section */}
+        <div className="bg-gradient-to-r from-blue-400 to-purple-500 py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-semibold mb-4">Our Impact</h2>
+              <p className="text-lg">See the difference we are making together.</p>
+            </div>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+                <FaHeart className="text-blue-500 text-6xl mb-4" />
+                <h3 className="text-2xl font-bold mb-2">5,000+</h3>
+                <p>Lives Impacted</p>
+              </div>
+              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+                <FaHandsHelping className="text-blue-500 text-6xl mb-4" />
+                <h3 className="text-2xl font-bold mb-2">1,200+</h3>
+                <p>Volunteers</p>
+              </div>
+              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+                <FaRegSmileBeam className="text-blue-500 text-6xl mb-4" />
+                <h3 className="text-2xl font-bold mb-2">800+</h3>
+                <p>Events Held</p>
+              </div>
+              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+                <FaDollarSign className="text-blue-500 text-6xl mb-4" />
+                <h3 className="text-2xl font-bold mb-2">$2M+</h3>
+                <p>Funds Raised</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };

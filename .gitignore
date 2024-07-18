@@ -26,3 +26,6 @@ yarn-error.log*
 /build
 /dist
 /.DS_Store
+
+# Local Netlify folder
+.netlify

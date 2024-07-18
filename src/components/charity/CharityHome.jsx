@@ -4,6 +4,43 @@ import Footer from '../common/Footer';
 import CharityNavbar from './CharityNavbar';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { FaHandHoldingHeart, FaHandsHelping, FaBullhorn, FaDonate } from 'react-icons/fa';
+
+const SectionIntro = () => (
+  <div className="text-center mb-12">
+    <h2 className="text-4xl font-semibold mb-4">How Can We Help</h2>
+    <p className="text-lg">Discover the various ways you can make a difference and support our cause.</p>
+  </div>
+);
+
+const HelpCards = () => (
+  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+      <FaHandHoldingHeart className="text-pink-500 text-6xl mb-4" />
+      <h3 className="text-2xl font-bold mb-2">Donate</h3>
+      <p>Your contributions can help provide essential services and support.</p>
+      <a href="/charity/donate" className="mt-4 bg-pink-500 text-white font-bold py-2 px-4 rounded-full">Donate Now</a>
+    </div>
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+      <FaHandsHelping className="text-pink-500 text-6xl mb-4" />
+      <h3 className="text-2xl font-bold mb-2">Volunteer</h3>
+      <p>Join our team and help us make a bigger impact.</p>
+      <a href="/get-involved" className="mt-4 bg-pink-500 text-white font-bold py-2 px-4 rounded-full">Get Involved</a>
+    </div>
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+      <FaBullhorn className="text-pink-500 text-6xl mb-4" />
+      <h3 className="text-2xl font-bold mb-2">Spread the Word</h3>
+      <p>Help us reach more people by sharing our mission with your network.</p>
+      <a href="/share" className="mt-4 bg-pink-500 text-white font-bold py-2 px-4 rounded-full">Share Now</a>
+    </div>
+    <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
+      <FaDonate className="text-pink-500 text-6xl mb-4" />
+      <h3 className="text-2xl font-bold mb-2">Fundraise</h3>
+      <p>Start your own fundraiser to support our cause.</p>
+      <a href="/fundraise" className="mt-4 bg-pink-500 text-white font-bold py-2 px-4 rounded-full">Start Now</a>
+    </div>
+  </div>
+);
 
 const CharityHome = () => (
   <div className="bg-red-50 min-h-screen flex flex-col">
@@ -83,44 +120,13 @@ const CharityHome = () => (
         </div>
       </section>
 
-      {/* Donation Section */}
-      <section className="bg-pink-50 py-20" id="make-donation">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-10">Make a Donation</h2>
-          <form action="#" className="donation_form">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div className="p-6 bg-white rounded-lg shadow-md">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">$</span>
-                  </div>
-                  <input type="text" className="form-control" placeholder="Amount" aria-label="Amount" aria-describedby="basic-addon1" />
-                </div>
-              </div>
-              <div className="p-6 bg-white rounded-lg shadow-md">
-                <h4 className="text-xl font-semibold mb-4">Select Amount:</h4>
-                <div className="flex justify-between">
-                  <label className="inline-flex items-center">
-                    <input type="radio" name="amount" value="10" className="form-radio" />
-                    <span className="ml-2">10</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input type="radio" name="amount" value="30" className="form-radio" />
-                    <span className="ml-2">30</span>
-                  </label>
-                  <label className="inline-flex items-center">
-                    <input type="radio" name="amount" value="50" className="form-radio" />
-                    <span className="ml-2">50</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-            <button className="mt-6 bg-red-500 text-white font-bold py-2 px-4 rounded-full">Donate Now</button>
-          </form>
-        </div>
+      {/* How Can We Help Section */}
+      <section className="bg-pink-50 py-20" id="how-can-we-help">
+        <SectionIntro />
+        <HelpCards />
       </section>
     </main>
-    <Footer />
+    <Footer theme="charity" />
   </div>
 );
 

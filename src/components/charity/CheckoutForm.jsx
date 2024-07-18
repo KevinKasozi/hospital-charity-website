@@ -1,26 +1,34 @@
-import React, { useCallback } from "react";
-import { loadStripe } from '@stripe/stripe-js';
-import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
-
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+import React from 'react';
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
-  const fetchClientSecret = useCallback(() => {
-    return fetch("/create-checkout-session", {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then((data) => data.clientSecret);
-  }, []);
+  const stripe = useStripe();
+  const elements = useElements();
 
-  const options = { fetchClientSecret };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const result = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/success`,
+      },
+    });
+
+    if (result.error) {
+      console.error(result.error.message);
+    }
+  };
 
   return (
-    <div id="checkout" className="bg-white p-6 rounded-md shadow-md">
-      <EmbeddedCheckoutProvider stripe={stripePromise} options={options}>
-        <EmbeddedCheckout />
-      </EmbeddedCheckoutProvider>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <PaymentElement />
+      <button type="submit" disabled={!stripe}>Donate</button>
+    </form>
   );
 };
 
