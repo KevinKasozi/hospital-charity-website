@@ -128,7 +128,7 @@ function OurServices() {
           ))}
         </div>
       </div>
-      <Footer />
+      <Footer theme="hospital" />
     </>
   );
 }

@@ -16,3 +16,7 @@
 .navbar a:hover {
   color: var(--navbar-link-hover-color);
 }
+.hero-carousel {
+  height: 100%;
+  width: 100%;
+}

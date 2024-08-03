@@ -19,3 +19,26 @@ npm run build will build the production version of your site.
 npm run serve will preview the production build.
 npm run start:server will start the server.
 npm start will build the production version and then start the server.
+
+
+
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  define: {
+    'process.env': process.env,
+  },
+  server: {
+    proxy: {
+      '/.netlify/functions': {
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/.netlify\/functions/, ''),
+      },
+    },
+  },
+});

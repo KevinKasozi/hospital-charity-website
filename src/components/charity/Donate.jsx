@@ -1,62 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import CharityNavbar from './CharityNavbar';
 import { FaHeart, FaHandsHelping, FaRegSmileBeam, FaDollarSign } from 'react-icons/fa';
 import '../stylesheets/Donate.css';
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const ProductDisplay = ({ handleDonate }) => (
+  <section>
+    <div className="product">
+      <img
+        src="https://i.imgur.com/EHyR2nP.png"
+        alt="Donation"
+      />
+      <div className="description">
+        <h3>Donation</h3>
+      </div>
+    </div>
+    <button type="button" onClick={handleDonate}>
+      Donate
+    </button>
+  </section>
+);
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
+const Message = ({ message }) => (
+  <section>
+    <p>{message}</p>
+  </section>
+);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const result = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/success`,
-      },
-    });
-
-    if (result.error) {
-      console.error(result.error.message);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      <button type="submit" disabled={!stripe}>Donate</button>
-    </form>
-  );
-};
-
-const Donate = () => {
-  const [clientSecret, setClientSecret] = useState('');
+export default function Donate() {
+  const [amount, setAmount] = useState(1000); // Default amount
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch('/.netlify/functions/create-payment-intent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: 1000 }), // Set amount as needed
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret))
-      .catch(error => console.error('Error fetching client secret:', error));
+    const query = new URLSearchParams(window.location.search);
+
+    if (query.get('success')) {
+      setMessage('Donation successful! You will receive an email confirmation.');
+    }
+
+    if (query.get('canceled')) {
+      setMessage('Donation canceled -- please try again.');
+    }
   }, []);
 
-  const options = {
-    clientSecret,
-    appearance: { /* customize the appearance here */ },
+  const handleDonate = async () => {
+    try {
+      const response = await fetch('/.netlify/functions/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ amount }),
+      });
+
+      const session = await response.json();
+      if (session.url) {
+        window.location.href = session.url;
+      } else {
+        console.error('Error:', session);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
@@ -67,16 +73,35 @@ const Donate = () => {
         <div className="background-design"></div>
         <div className="form-container">
           <h1 className="form-header">Donate</h1>
-          {clientSecret ? (
-            <Elements options={options} stripe={stripePromise}>
-              <CheckoutForm />
-            </Elements>
+          <div className="mb-4">
+            <h2>Select Donation Amount:</h2>
+            <div className="flex space-x-4">
+              {[1000, 5000, 10000, 20000].map((amt) => (
+                <button
+                  key={amt}
+                  type="button"
+                  className={`p-2 border rounded ${amount === amt ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  onClick={() => setAmount(amt)}
+                >
+                  ${amt / 100}
+                </button>
+              ))}
+              <input
+                type="number"
+                value={amount / 100}
+                onChange={(e) => setAmount(parseInt(e.target.value) * 100)}
+                className="p-2 border rounded w-20"
+                placeholder="Other"
+              />
+            </div>
+          </div>
+          {message ? (
+            <Message message={message} />
           ) : (
-            <p>Loading...</p>
+            <ProductDisplay handleDonate={handleDonate} />
           )}
         </div>
 
-        {/* New Impact Section */}
         <div className="bg-gradient-to-r from-blue-400 to-purple-500 py-16">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
@@ -111,6 +136,4 @@ const Donate = () => {
       <Footer />
     </div>
   );
-};
-
-export default Donate;
+}
