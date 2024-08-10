@@ -9,8 +9,8 @@
   status = 200
 
 [[redirects]]
-  from = "/contact-success"
-  to = "/contact-success.html"
+  from = "/success"
+  to = "/success.html"
   status = 200
 
 [functions]

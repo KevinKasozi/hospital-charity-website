@@ -33,6 +33,7 @@ const App = () => (
         <Route path="/charity/donate" element={<Donate />} />
         <Route path="/" element={<HospitalHome />} />
         <Route path="*" element={<NotFound />} />
+        
       </Routes>
     </Router>
   </div>
