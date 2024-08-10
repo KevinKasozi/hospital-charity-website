@@ -8,6 +8,11 @@
   to = "/index.html"
   status = 200
 
+[[redirects]]
+  from = "/contact-success"
+  to = "/contact-success.html"
+  status = 200
+
 [functions]
   directory = "netlify/functions"
   external_node_modules = ["nodemailer"]
