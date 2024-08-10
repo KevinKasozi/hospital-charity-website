@@ -8,6 +8,7 @@ import HospitalFeatures from './components/hospital/HospitalFeatures'
 import OurServices from './components/hospital/OurServices'
 import Statistic from './components/hospital/Statistic'
 import Timeline from './components/hospital/Timeline'
+import Success from './components/Success';
 import Events from './components/charity/Events'
 import GetInvolved from './components/charity/GetInvolved'
 import Donate from './components/charity/Donate'
@@ -25,6 +26,7 @@ const App = () => (
         <Route path="/hospital/services" element={<OurServices />} />
         <Route path="/hospital/statistics" element={<Statistic />} />
         <Route path="/hospital/timeline" element={<Timeline />} />
+        <Route path="/success" element={<Success />} />
         <Route path="/charity" element={<CharityHome />} />
         <Route path="/charity/events" element={<Events />} />
         <Route path="/charity/get-involved" element={<GetInvolved />} />

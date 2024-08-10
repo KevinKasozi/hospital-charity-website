@@ -36,6 +36,7 @@ const ContactUs = () => {
             >
               {/* Hidden field for bot prevention */}
               <input type="hidden" name="form-name" value="contact" />
+              <input type="hidden" name="redirect" value="/success" />
               <p hidden>
                 <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
               </p>
