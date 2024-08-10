@@ -19,6 +19,32 @@ const ContactUs = () => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch('/.netlify/functions/submitForm', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Form submission successful!') {
+        // Redirect to the success page
+        window.location.href = '/success';
+      } else {
+        // Handle failure
+        alert('Failed to submit the form. Please try again.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert('An error occurred while submitting the form. Please try again later.');
+    });
+  };
+
   return (
     <>
       <Header />
@@ -33,6 +59,7 @@ const ContactUs = () => {
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit} // Add the onSubmit handler here
             >
               {/* Hidden field for bot prevention */}
               <input type="hidden" name="form-name" value="contact" />
