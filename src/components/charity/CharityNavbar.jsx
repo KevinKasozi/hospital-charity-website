@@ -1,11 +1,18 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import logo from '../../assets/NewImages/NewLogo.png'; // Adjust this path to where your logo is located
+
 
 const CharityNavbar = () => (
-  <nav className="bg-charity-red p-4">
-    <div className="container mx-auto flex justify-between items-center">
-      <div className="text-white text-2xl font-bold">Great Ormond Street Charity</div>
-      <div className="space-x-4">
+  <nav className="bg-charity-red shadow-lg h-24">
+    <div className="container mx-auto px-4 h-full flex justify-between items-center">
+      <img src={logo}
+        alt="Logo"
+        className="h-52 w-auto ml-16"
+        style={{
+          backgroundColor: 'transparent'
+        }} />
+      <div className="flex space-x-4">
         <NavLink
           to="/charity"
           className={({ isActive }) =>

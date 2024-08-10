@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import logo from '../../assets/NewImages/NewLogo.png'; // Adjust this path to where your logo is located
 
 const Header = () => {
   const location = useLocation();
@@ -10,7 +11,10 @@ const Header = () => {
   return (
     <div className={`p-4 ${isCharity ? 'bg-charity-red' : 'bg-hospital-blue'}`}>
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-white text-2xl font-bold">Great Ormond Street {isCharity ? 'Charity' : 'Hospital'}</div>
+        <div className="flex items-center">
+          <div className="text-white text-2xl font-bold">NSOBANI COMMUNITY MEDICAL CENTER</div>
+          
+        </div>
         <div className="space-x-4">
           <NavLink
             to="/"

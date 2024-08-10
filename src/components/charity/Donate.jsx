@@ -2,28 +2,23 @@ import React, { useState, useEffect } from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import CharityNavbar from './CharityNavbar';
-import { FaHeart, FaHandsHelping, FaRegSmileBeam, FaDollarSign } from 'react-icons/fa';
 import '../stylesheets/Donate.css';
 
 const ProductDisplay = ({ handleDonate }) => (
   <section>
     <div className="product">
-      <img
-        src="https://i.imgur.com/EHyR2nP.png"
-        alt="Donation"
-      />
       <div className="description">
         <h3>Donation</h3>
       </div>
     </div>
-    <button type="button" onClick={handleDonate}>
+    <button type="button" className="donate-button" onClick={handleDonate}>
       Donate
     </button>
   </section>
 );
 
 const Message = ({ message }) => (
-  <section>
+  <section className="message-section">
     <p>{message}</p>
   </section>
 );
@@ -31,6 +26,7 @@ const Message = ({ message }) => (
 export default function Donate() {
   const [amount, setAmount] = useState(1000); // Default amount
   const [message, setMessage] = useState('');
+  const [isRecurring, setIsRecurring] = useState(false); // State for payment frequency
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -51,7 +47,7 @@ export default function Donate() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({ amount, isRecurring }),
       });
 
       const session = await response.json();
@@ -69,21 +65,55 @@ export default function Donate() {
     <div className="donate-page">
       <Header />
       <CharityNavbar />
+      <div
+        className="hero-section relative flex items-center justify-center text-center text-white min-h-screen"
+        style={{ backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="hero-overlay absolute inset-0 bg-black opacity-50"></div>
+        <div className="hero-content">
+          <h1 className="hero-title">Donate Now and Transform Lives in Iganga District</h1>
+          <p className="hero-subtitle">
+            Every year, countless individuals in Uganda’s Iganga District struggle to access essential medical care due to poverty. Your generous donation can make a significant impact, providing crucial healthcare services to those in desperate need.
+          </p>
+        </div>
+      </div>
       <main className="main-content">
         <div className="background-design"></div>
         <div className="form-container">
           <h1 className="form-header">Donate</h1>
-          <div className="mb-4">
-            <h2>Select Donation Amount:</h2>
-            <div className="flex space-x-4">
-              {[1000, 5000, 10000, 20000].map((amt) => (
+          <p className="form-description">
+            By contributing today, you help deliver vital medical treatments, improve healthcare infrastructure, and offer hope to families living in poverty. Together, we can transform lives and build a healthier future for the Iganga District community. Your support makes all the difference.
+          </p>
+          <div className="frequency-section">
+            <h2 className="text-center mb-4">GIFT FREQUENCY</h2>
+            <div className="frequency-buttons">
+              <button
+                type="button"
+                className={`frequency-button ${!isRecurring ? 'selected' : ''}`}
+                onClick={() => setIsRecurring(false)}
+              >
+                One Time
+              </button>
+              <button
+                type="button"
+                className={`frequency-button ${isRecurring ? 'selected' : ''}`}
+                onClick={() => setIsRecurring(true)}
+              >
+                Regular
+              </button>
+            </div>
+          </div>
+          <div className="amount-section">
+            <h2 className="text-center mb-4">SELECT AMOUNT (GBP)</h2>
+            <div className="amount-buttons">
+              {[3000, 7500, 15000, 30000].map((amt) => (
                 <button
                   key={amt}
                   type="button"
-                  className={`p-2 border rounded ${amount === amt ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                  className={`amount-button ${amount === amt ? 'selected' : ''}`}
                   onClick={() => setAmount(amt)}
                 >
-                  ${amt / 100}
+                  £{amt / 100}
                 </button>
               ))}
               <input
@@ -100,37 +130,6 @@ export default function Donate() {
           ) : (
             <ProductDisplay handleDonate={handleDonate} />
           )}
-        </div>
-
-        <div className="bg-gradient-to-r from-blue-400 to-purple-500 py-16">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-semibold mb-4">Our Impact</h2>
-              <p className="text-lg">See the difference we are making together.</p>
-            </div>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
-                <FaHeart className="text-blue-500 text-6xl mb-4" />
-                <h3 className="text-2xl font-bold mb-2">5,000+</h3>
-                <p>Lives Impacted</p>
-              </div>
-              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
-                <FaHandsHelping className="text-blue-500 text-6xl mb-4" />
-                <h3 className="text-2xl font-bold mb-2">1,200+</h3>
-                <p>Volunteers</p>
-              </div>
-              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
-                <FaRegSmileBeam className="text-blue-500 text-6xl mb-4" />
-                <h3 className="text-2xl font-bold mb-2">800+</h3>
-                <p>Events Held</p>
-              </div>
-              <div className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md">
-                <FaDollarSign className="text-blue-500 text-6xl mb-4" />
-                <h3 className="text-2xl font-bold mb-2">$2M+</h3>
-                <p>Funds Raised</p>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
       <Footer />

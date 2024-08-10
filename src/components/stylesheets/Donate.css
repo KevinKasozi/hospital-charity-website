@@ -7,8 +7,29 @@
   @apply flex flex-col min-h-screen;
 }
 
+.hero-section {
+  @apply relative w-full h-80 bg-cover bg-center text-white flex items-center justify-center;
+  background-image: url('https://static.wixstatic.com/media/nsplsh_4c714f4f354b6f307a536f~mv2_d_4032_2784_s_4_2.jpg/v1/fill/w_2074,h_1364,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/nsplsh_4c714f4f354b6f307a536f~mv2_d_4032_2784_s_4_2.jpg');
+}
+
+.hero-overlay {
+  @apply absolute inset-0 bg-black opacity-50;
+}
+
+.hero-content {
+  @apply relative z-10 text-center;
+}
+
+.hero-title {
+  @apply text-4xl font-bold mb-4;
+}
+
+.hero-subtitle {
+  @apply text-lg font-medium;
+}
+
 .main-content {
-  @apply flex-grow flex flex-col justify-center items-center relative p-4;
+  @apply flex-grow flex flex-col items-center relative p-4;
 }
 
 .background-design {
@@ -17,33 +38,74 @@
 }
 
 .form-container {
-  @apply bg-white rounded-lg shadow-lg p-6 max-w-lg w-full mb-8;
+  @apply bg-white rounded-lg shadow-lg p-8 max-w-lg w-full mb-8;
 }
 
 .form-header {
-  @apply text-center text-2xl font-semibold mb-4 text-gray-800;
+  @apply text-center text-3xl font-semibold mb-4 text-gray-800;
 }
 
-.cards-container {
-  @apply mt-8 flex flex-wrap justify-center space-x-4;
+.form-description {
+  @apply text-center text-lg mb-8 text-gray-600;
 }
 
-.card {
-  @apply bg-white rounded-lg shadow-lg p-4 m-2 w-full sm:w-56;
+.frequency-buttons, .amount-buttons {
+  @apply flex justify-center space-x-4 mb-4;
 }
 
-.card-header {
-  @apply text-xl font-bold text-gray-800 mb-2;
+.frequency-button, .amount-button {
+  @apply py-2 px-4 border rounded text-lg font-medium cursor-pointer transition duration-200;
 }
 
-.card-body {
+.frequency-button:hover, .amount-button:hover {
+  @apply bg-blue-400 text-white;
+}
+
+.selected {
+  @apply bg-blue-500 text-white;
+}
+
+.message-section {
+  @apply p-4 text-center text-lg text-green-600;
+}
+
+.impact-section {
+  @apply bg-gradient-to-r from-blue-400 to-purple-500 py-16 mt-8 w-full;
+}
+
+.impact-container {
+  @apply container mx-auto px-4;
+}
+
+.impact-header {
+  @apply text-center mb-12 text-white;
+}
+
+.impact-grid {
+  @apply grid gap-8 sm:grid-cols-2 lg:grid-cols-4;
+}
+
+.impact-card {
+  @apply flex flex-col items-center bg-white p-6 rounded-lg shadow-md;
+  transition: transform 0.3s;
+}
+
+.impact-card:hover {
+  transform: translateY(-10px);
+}
+
+.icon {
+  @apply text-blue-500 text-6xl mb-4;
+}
+
+.impact-number {
+  @apply text-2xl font-bold mb-2;
+}
+
+.impact-text {
   @apply text-gray-600;
 }
 
-form {
-  @apply w-full space-y-4;
-}
-
-button {
+.donate-button {
   @apply w-full py-2 px-4 bg-red-500 text-white font-semibold rounded-md shadow-md hover:bg-red-600 transition duration-200;
 }

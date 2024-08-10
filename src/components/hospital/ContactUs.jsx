@@ -19,30 +19,26 @@ const ContactUs = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your code here to handle form submission, such as sending an email or saving the data.
-    console.log('Form submitted:', formData);
-    // You can reset the form data if needed
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    });
-  };
-
   return (
     <>
       <Header />
       <HospitalNavbar />
       <div className="container mx-auto py-16">
         <div className="bg-white shadow-lg rounded-lg overflow-hidden grid grid-cols-1 lg:grid-cols-2">
-          {/* Contact Form */}
           <div className="p-8">
             <h2 className="text-3xl font-semibold mb-6">Say Hi!</h2>
             <p className="text-gray-700 mb-6">We'd like to talk with you.</p>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              data-netlify-honeypot="bot-field"
+            >
+              {/* Hidden field for bot prevention */}
+              <input type="hidden" name="form-name" value="contact" />
+              <p hidden>
+                <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
+              </p>
               <div>
                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
                   My name is
@@ -110,7 +106,6 @@ const ContactUs = () => {
               </div>
             </form>
           </div>
-          {/* Contact Information */}
           <div className="relative p-8 bg-cover bg-center" style={{ backgroundImage: `url('/path/to/your/background/image.jpg')` }}>
             <div className="absolute inset-0 bg-blue-600 opacity-75"></div>
             <div className="relative z-10 text-white">
@@ -148,7 +143,7 @@ const ContactUs = () => {
           </div>
         </div>
         <Footer theme="hospital" />
-    </div >
+      </div>
     </>
   );
 };

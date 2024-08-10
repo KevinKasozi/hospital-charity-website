@@ -1,22 +1,8 @@
 require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: 'Method Not Allowed',
-    };
-  }
-
-  const { amount } = JSON.parse(event.body);
-
-  if (!amount) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'Missing amount' }),
-    };
-  }
+exports.handler = async (event, context) => {
+  const { amount, isRecurring } = JSON.parse(event.body);
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -24,16 +10,17 @@ exports.handler = async (event) => {
       line_items: [
         {
           price_data: {
-            currency: 'usd',
+            currency: 'gbp',
             product_data: {
               name: 'Donation',
             },
             unit_amount: amount,
+            recurring: isRecurring ? { interval: 'month' } : undefined,
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: isRecurring ? 'subscription' : 'payment',
       success_url: `${process.env.URL}/?success=true`,
       cancel_url: `${process.env.URL}/?canceled=true`,
     });
