@@ -8,7 +8,7 @@ import HospitalFeatures from './components/hospital/HospitalFeatures'
 import OurServices from './components/hospital/OurServices'
 import Statistic from './components/hospital/Statistic'
 import Timeline from './components/hospital/Timeline'
-import Success from './components/Success';
+import Success from './components//hospital/Success';
 import Events from './components/charity/Events'
 import GetInvolved from './components/charity/GetInvolved'
 import Donate from './components/charity/Donate'
