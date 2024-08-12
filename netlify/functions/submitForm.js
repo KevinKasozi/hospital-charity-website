@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
     // Create a transporter for IONOS
     const transporter = nodemailer.createTransport({
       host: 'smtp.ionos.com',
-      port: 587, // You can also use 465 for secure connection, but make sure to adjust the `secure` field
+      port: 465, // You can also use 465 for secure connection, but make sure to adjust the `secure` field
       secure: false, // Set to true if you are using port 465
       auth: {
         user: process.env.EMAIL_USER, // Your IONOS email address
@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
     // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER, // Sender address
-      to: 'nsobanimedical.center@gmail.com', // Recipient address
+      to: 'contact@nsobanifoundationclinic.ch', // Recipient address
       subject: `New message from ${data.name}`, // Subject line
       text: `You have a new message from ${data.name} (${data.email}):\n\n${data.message}`, // Plain text body
     };
