@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
     // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER, // Sender address
-      to: 'nsobanimedical.center@gmail.com', // Recipient address
+      to: 'contact@nsobanifoundationclinic.ch', // Recipient address
       subject: `New message from ${data.name}`, // Subject line
       text: `You have a new message from ${data.name} (${data.email}):\n\n${data.message}`, // Plain text body
     };
