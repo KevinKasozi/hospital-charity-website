@@ -1,16 +1,29 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+const axios = require('axios');
 
 exports.handler = async (event, context) => {
   try {
     const data = JSON.parse(event.body);
-    console.log('Form data received:', data);
 
-    // Create a transporter for IONOS
+    // Validate reCAPTCHA
+    const recaptchaResponse = data['g-recaptcha-response'];
+    const recaptchaSecret = process.env.SERVER_SIDE_CAPTCHA;
+
+    const verifyResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaResponse}`);
+
+    if (!verifyResponse.data.success) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'reCAPTCHA verification failed. Please try again.' }),
+      };
+    }
+
+    // Email setup
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ionos.co.uk',
-      port: 587, // Port 587 with TLS
-      secure: false, // true for 465, false for other ports
+      host: 'smtp.ionos.co.uk', // Your IONOS email host
+      port: 587, // Port number for TLS
+      secure: false, // Use SSL/TLS
       auth: {
         user: process.env.EMAIL_USER, // Your IONOS email address
         pass: process.env.EMAIL_PASS, // Your IONOS email password
@@ -40,3 +53,5 @@ exports.handler = async (event, context) => {
     };
   }
 };
+
+      

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../common/Header';
 import Footer from '../common/Footer';
 import HospitalNavbar from './HospitalNavbar';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const ContactUs = () => {
     email: '',
     subject: '',
     message: '',
+    'g-recaptcha-response': '',
   });
 
   const handleChange = (e) => {
@@ -16,6 +18,13 @@ const ContactUs = () => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+
+  const handleRecaptchaChange = (value) => {
+    setFormData({
+      ...formData,
+      'g-recaptcha-response': value,
     });
   };
 
@@ -32,10 +41,8 @@ const ContactUs = () => {
     .then(response => response.json())
     .then(data => {
       if (data.message === 'Form submission successful!') {
-        // Redirect to the success page
         window.location.href = '/success';
       } else {
-        // Handle failure
         alert('Failed to submit the form. Please try again.');
       }
     })
@@ -59,9 +66,8 @@ const ContactUs = () => {
               method="POST"
               data-netlify="true"
               data-netlify-honeypot="bot-field"
-              onSubmit={handleSubmit} // Add the onSubmit handler here
+              onSubmit={handleSubmit}
             >
-              {/* Hidden field for bot prevention */}
               <input type="hidden" name="form-name" value="contact" />
               <input type="hidden" name="redirect" value="/success" />
               <p hidden>
@@ -127,7 +133,13 @@ const ContactUs = () => {
                   required
                 ></textarea>
               </div>
-              <div className="text-right">
+              <div className="mt-4">
+                <ReCAPTCHA
+                  sitekey={process.env.CLIENT_SIDE_CAPTCHA}
+                  onChange={handleRecaptchaChange}
+                />
+              </div>
+              <div className="text-right mt-4">
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
                   Send Message
                 </button>
