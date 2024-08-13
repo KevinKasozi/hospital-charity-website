@@ -1,7 +1,6 @@
 [build]
   publish = "dist"
   command = "npm run build"
-  functions = "netlify/functions"
 
 [[redirects]]
   from = "/*"
@@ -15,7 +14,7 @@
 
 [functions]
   directory = "netlify/functions"
-  external_node_modules = ["nodemailer"]
+  external_node_modules = ["axios", "nodemailer"]
 
 [functions.environment]
   STRIPE_SECRET_KEY = "${STRIPE_SECRET_KEY}"
