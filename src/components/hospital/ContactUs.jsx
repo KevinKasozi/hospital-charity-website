@@ -4,7 +4,6 @@ import Footer from '../common/Footer';
 import HospitalNavbar from './HospitalNavbar';
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -136,7 +135,7 @@ const ContactUs = () => {
               </div>
               <div className="mt-4">
                 <ReCAPTCHA
-                  sitekey={process.env.CLIENT_SIDE_CAPTCHA}
+                  sitekey={import.meta.env.VITE_CLIENT_SIDE_CAPTCHA} // Make sure this is set in your .env file
                   onChange={handleRecaptchaChange}
                 />
               </div>

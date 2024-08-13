@@ -10,7 +10,9 @@ exports.handler = async (event, context) => {
     const recaptchaResponse = data['g-recaptcha-response'];
     const recaptchaSecret = process.env.SERVER_SIDE_CAPTCHA;
 
-    const verifyResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaResponse}`);
+    const verifyResponse = await axios.post(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaResponse}`
+    );
 
     if (!verifyResponse.data.success) {
       return {
@@ -53,5 +55,3 @@ exports.handler = async (event, context) => {
     };
   }
 };
-
-      
