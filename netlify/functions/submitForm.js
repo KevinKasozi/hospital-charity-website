@@ -30,7 +30,10 @@ exports.handler = async (event, context) => {
         user: process.env.EMAIL_USER, // Your IONOS email address
         pass: process.env.EMAIL_PASS, // Your IONOS email password
       },
+      debug: true, // Enable debug output
+      logger: true, // Log to console
     });
+    
 
     // Email options
     const mailOptions = {
