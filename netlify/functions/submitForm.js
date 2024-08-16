@@ -15,6 +15,7 @@ exports.handler = async (event, context) => {
     );
 
     if (!verifyResponse.data.success) {
+      console.error('reCAPTCHA verification failed:', verifyResponse.data);
       return {
         statusCode: 400,
         body: JSON.stringify({ message: 'reCAPTCHA verification failed. Please try again.' }),
@@ -33,7 +34,6 @@ exports.handler = async (event, context) => {
       debug: true, // Enable debug output
       logger: true, // Log to console
     });
-    
 
     // Email options
     const mailOptions = {
