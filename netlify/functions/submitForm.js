@@ -15,10 +15,13 @@ exports.handler = async (event, context) => {
     );
 
     if (!verifyResponse.data.success) {
-      console.error('reCAPTCHA verification failed:', verifyResponse.data);
+      console.error('reCAPTCHA verification failed:', verifyResponse.data['error-codes']);
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'reCAPTCHA verification failed. Please try again.' }),
+        body: JSON.stringify({ 
+          message: 'reCAPTCHA verification failed. Please try again.',
+          errors: verifyResponse.data['error-codes'] 
+        }),
       };
     }
 
@@ -26,13 +29,13 @@ exports.handler = async (event, context) => {
     const transporter = nodemailer.createTransport({
       host: 'smtp.ionos.co.uk', // Your IONOS email host
       port: 587, // Port number for TLS
-      secure: false, // Use SSL/TLS
+      secure: false, // Use TLS but not SSL
       auth: {
         user: process.env.EMAIL_USER, // Your IONOS email address
         pass: process.env.EMAIL_PASS, // Your IONOS email password
       },
-      debug: true, // Enable debug output
-      logger: true, // Log to console
+      debug: true, // Enable debug output for detailed information
+      logger: true, // Log sending information to console
     });
 
     // Email options
