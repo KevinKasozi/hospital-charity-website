@@ -10,9 +10,24 @@ exports.handler = async (event, context) => {
     const recaptchaResponse = data['g-recaptcha-response'];
     const recaptchaSecret = process.env.SERVER_SIDE_CAPTCHA;
 
-    const verifyResponse = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaResponse}`
-    );
+    let verifyResponse;
+    try {
+      verifyResponse = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify`,
+        `secret=${recaptchaSecret}&response=${recaptchaResponse}`,
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        }
+      );
+    } catch (err) {
+      console.error('Error verifying reCAPTCHA:', err);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ message: 'Error verifying reCAPTCHA. Please try again later.' }),
+      };
+    }
 
     if (!verifyResponse.data.success) {
       console.error('reCAPTCHA verification failed:', verifyResponse.data['error-codes']);
@@ -34,8 +49,9 @@ exports.handler = async (event, context) => {
         user: process.env.EMAIL_USER, // Your IONOS email address
         pass: process.env.EMAIL_PASS, // Your IONOS email password
       },
-      debug: true, // Enable debug output for detailed information
-      logger: true, // Log sending information to console
+      connectionTimeout: 5000, // 5 seconds timeout for connection
+      debug: process.env.NODE_ENV !== 'production', // Enable debug in non-production environments
+      logger: process.env.NODE_ENV !== 'production', // Log in non-production environments
     });
 
     // Email options
