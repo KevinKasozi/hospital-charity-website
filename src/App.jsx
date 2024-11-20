@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import HospitalHome from './components/hospital/HospitalHome'
-import CharityHome from './components/charity/CharityHome'
-import AboutUs from './components/hospital/AboutUs'
-import ContactUs from './components/hospital/ContactUs'
-import HospitalFeatures from './components/hospital/HospitalFeatures'
-import OurServices from './components/hospital/OurServices'
-import Statistic from './components/hospital/Statistic'
-import Timeline from './components/hospital/Timeline'
-import Success from './components//hospital/Success';
-import Events from './components/charity/Events'
-import GetInvolved from './components/charity/GetInvolved'
-import Donate from './components/charity/Donate'
-import NotFound from './components/common/NotFound'
-
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HospitalHome from './components/hospital/HospitalHome';
+import CharityHome from './components/charity/CharityHome';
+import AboutUs from './components/hospital/AboutUs';
+import ContactUs from './components/hospital/ContactUs';
+import HospitalFeatures from './components/hospital/HospitalFeatures';
+import OurServices from './components/hospital/OurServices';
+import Statistic from './components/hospital/Statistic';
+import Timeline from './components/hospital/Timeline';
+import Success from './components/hospital/Success';
+import Events from './components/charity/Events';
+import GetInvolved from './components/charity/GetInvolved';
+import Donate from './components/charity/Donate';
+import NotFound from './components/common/NotFound';
+import TermsAndConditions from './components/common/T&Cpage'; 
 
 const App = () => (
   <div className="App">
@@ -33,10 +34,10 @@ const App = () => (
         <Route path="/charity/donate" element={<Donate />} />
         <Route path="/" element={<HospitalHome />} />
         <Route path="*" element={<NotFound />} />
-        
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} /> 
       </Routes>
     </Router>
   </div>
-)
+);
 
-export default App
+export default App;
