@@ -119,11 +119,11 @@ const CharityHome = () => (
           <h2 className="text-3xl font-bold text-gray-800 mb-10">Our Volunteers</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { image: "img/volunteer/1.png", name: "Sakil Khan", role: "Donor" },
-              { image: "img/volunteer/2.png", name: "Emran Ahmed", role: "Volunteer" },
-              { image: "img/volunteer/3.png", name: "Sabbir Ahmed", role: "Volunteer" },
-            ].map((volunteer, index) => (
-              <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow" key={index}>
+              { id: 1, image: "img/volunteer/1.png", name: "Sakil Khan", role: "Donor" },
+              { id: 2, image: "img/volunteer/2.png", name: "Emran Ahmed", role: "Volunteer" },
+              { id: 3, image: "img/volunteer/3.png", name: "Sabbir Ahmed", role: "Volunteer" },
+            ].map((volunteer) => (
+              <div className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow" key={volunteer.id}>
                 <img src={volunteer.image} alt={volunteer.name} className="mb-4 rounded-full w-24 h-24 mx-auto" />
                 <h4 className="text-xl font-semibold text-gray-800">{volunteer.name}</h4>
                 <p className="text-gray-600">{volunteer.role}</p>
@@ -135,6 +135,7 @@ const CharityHome = () => (
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       </section>
